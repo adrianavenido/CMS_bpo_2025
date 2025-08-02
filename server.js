@@ -158,6 +158,14 @@ app.get('/health', (req, res) => {
 
 // Database test endpoint
 app.get('/api/test-db', async (req, res) => {
+  if (!process.env.DATABASE_URL) {
+    return res.json({
+      success: false,
+      database: 'not_configured',
+      message: 'No DATABASE_URL configured - using demo mode'
+    });
+  }
+
   let client;
   try {
     client = await pool.connect();
@@ -214,6 +222,30 @@ app.post('/api/auth/login', async (req, res) => {
       return res.status(400).json({ error: 'Invalid email format' });
     }
 
+    // Check if database is available
+    if (!process.env.DATABASE_URL) {
+      // Fallback for demo without database
+      if (email === 'admin@bpo.com' && password === 'admin123') {
+        req.session.userId = 1;
+        req.session.username = 'admin';
+        req.session.email = 'admin@bpo.com';
+        req.session.role = 'admin';
+        
+        res.json({ 
+          success: true, 
+          user: {
+            id: 1,
+            username: 'admin',
+            email: 'admin@bpo.com',
+            role: 'admin'
+          }
+        });
+        return;
+      } else {
+        return res.status(401).json({ error: 'Invalid credentials' });
+      }
+    }
+
     client = await pool.connect();
     
     const result = await client.query(
@@ -264,13 +296,16 @@ app.post('/api/auth/login', async (req, res) => {
 app.post('/api/auth/logout', requireAuth, async (req, res) => {
   let client;
   try {
-    client = await pool.connect();
-    
-    // Log activity
-    await client.query(
-      'INSERT INTO activity_logs (user_id, action, description) VALUES ($1, $2, $3)',
-      [req.session.userId, 'logout', 'User logged out']
-    );
+    // Check if database is available
+    if (process.env.DATABASE_URL) {
+      client = await pool.connect();
+      
+      // Log activity
+      await client.query(
+        'INSERT INTO activity_logs (user_id, action, description) VALUES ($1, $2, $3)',
+        [req.session.userId, 'logout', 'User logged out']
+      );
+    }
 
     req.session.destroy((err) => {
       if (err) {
@@ -352,6 +387,9 @@ initDatabase().then(() => {
     console.log(`Server running on port ${PORT} in ${process.env.NODE_ENV || 'development'} mode`);
   });
 }).catch(error => {
-  console.error('Failed to start server:', error);
-  process.exit(1);
+  console.error('Database initialization failed, starting server without database:', error.message);
+  // Start server even if database fails
+  app.listen(PORT, () => {
+    console.log(`Server running on port ${PORT} in ${process.env.NODE_ENV || 'development'} mode (no database)`);
+  });
 }); 
