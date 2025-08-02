@@ -13,11 +13,17 @@ const PORT = process.env.PORT || 3000;
 
 // Database connection with better error handling
 const pool = new Pool({
-  connectionString: process.env.DATABASE_URL,
+  connectionString: process.env.DATABASE_URL || 'postgresql://localhost:5432/bpo_cms',
   ssl: process.env.NODE_ENV === 'production' ? { rejectUnauthorized: false } : false,
   max: 20, // Maximum number of clients in the pool
   idleTimeoutMillis: 30000, // Close idle clients after 30 seconds
   connectionTimeoutMillis: 2000, // Return an error after 2 seconds if connection could not be established
+});
+
+// Test database connection
+pool.on('error', (err) => {
+  console.error('Unexpected error on idle client', err);
+  process.exit(-1);
 });
 
 // Security middleware with improved configuration
@@ -49,9 +55,7 @@ app.use(limiter);
 
 // CORS with specific origin for production
 const corsOptions = {
-  origin: process.env.NODE_ENV === 'production' 
-    ? process.env.ALLOWED_ORIGIN || 'https://your-app.railway.app'
-    : true,
+  origin: true, // Allow all origins for now
   credentials: true,
   optionsSuccessStatus: 200
 };
@@ -67,7 +71,7 @@ app.use(session({
   resave: false,
   saveUninitialized: false,
   cookie: {
-    secure: process.env.NODE_ENV === 'production',
+    secure: false, // Set to false for testing
     httpOnly: true,
     maxAge: 24 * 60 * 60 * 1000, // 24 hours
     sameSite: 'lax',
