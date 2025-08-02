@@ -1,0 +1,533 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>BPO CMS - Support Tickets</title>
+
+
+  <!-- ⏰ Smart default theme logic (before render) -->
+  <script>
+    const savedTheme = localStorage.getItem('theme');
+    if (!savedTheme) {
+      const hour = new Date().getHours();
+      const isNight = hour >= 18 || hour < 6;
+      document.documentElement.classList.toggle('dark', isNight);
+    } else {
+      document.documentElement.classList.toggle('dark', savedTheme === 'dark');
+    }
+  </script>
+
+  <!-- Tailwind and custom dark mode config -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            'bpo-primary': '#0d47a1',
+            'bpo-accent': '#1e88e5',
+            'dark-bg': '#0f172a',
+            'dark-surface': '#1e293b',
+            'dark-border': '#334155',
+          }
+        }
+      }
+    }
+  </script>
+
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            'bpo-primary': '#0d47a1',
+            'bpo-accent': '#1e88e5',
+            'dark-bg': '#0f172a',
+            'dark-surface': '#1e293b',
+            'dark-border': '#334155',
+          }
+        }
+      }
+    }
+  </script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body class="bg-gray-100 dark:bg-dark-bg text-gray-800 dark:text-white transition-colors duration-300">
+  
+  <!-- Header -->
+  <header class="bg-white dark:bg-dark-surface shadow-lg border-b dark:border-dark-border">
+    <div class="flex items-center justify-between px-6 py-4">
+      <div class="flex items-center gap-2">
+        <i class="fas fa-headset text-bpo-primary dark:text-bpo-accent text-2xl"></i>
+        <h1 class="text-xl font-bold text-bpo-primary dark:text-white">BPO CMS</h1>
+      </div>
+      <div class="flex items-center space-x-4">
+        <button id="themeToggle" class="p-2 rounded-full hover:bg-gray-200 dark:hover:bg-dark-surface transition">
+          <i id="themeIcon" class="fas fa-sun text-xl dark:text-white"></i>
+        </button>
+        <div class="relative">
+          <button class="p-2 rounded-full hover:bg-gray-200 dark:hover:bg-dark-surface transition">
+            <i class="fas fa-bell text-xl"></i>
+            <span class="absolute -top-1 -right-1 bg-red-500 text-xs rounded-full h-5 w-5 flex items-center justify-center">3</span>
+          </button>
+        </div>
+        <div class="flex items-center space-x-2">
+          <img src="/placeholder.svg?height=32&width=32" alt="User" class="w-8 h-8 rounded-full" />
+          <div class="text-sm">
+            <div class="font-medium">Alex Martin</div>
+            <div class="text-gray-500 dark:text-gray-400 text-xs">Ops Manager</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <div class="flex min-h-screen">
+    <!-- Sidebar -->
+    <aside class="w-64 bg-white dark:bg-dark-surface shadow-lg border-r dark:border-dark-border">
+      <nav class="mt-6">
+        <div class="px-6 py-2">
+          <h2 class="text-sm uppercase font-semibold text-gray-500 dark:text-gray-400 tracking-wider">Navigation</h2>
+        </div>
+        <ul class="space-y-2 px-4 mt-4">
+          <li>
+            <a href="index.html" class="flex items-center px-4 py-3 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-dark-bg rounded-lg transition-colors">
+              <i class="fas fa-chart-line mr-3"></i>Dashboard
+            </a>
+          </li>
+          <li>
+            <a href="clients.html" class="flex items-center px-4 py-3 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-dark-bg rounded-lg transition-colors">
+              <i class="fas fa-users mr-3"></i>Clients
+            </a>
+          </li>
+          <li>
+            <a href="support-tickets.html" class="flex items-center px-4 py-3 bg-bpo-primary text-white rounded-lg">
+              <i class="fas fa-ticket-alt mr-3"></i>Support Tickets
+            </a>
+          </li>
+          <li>
+            <a href="agents.html" class="flex items-center px-4 py-3 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-dark-bg rounded-lg transition-colors">
+              <i class="fas fa-user-friends mr-3"></i>Agents
+            </a>
+          </li>
+          <li>
+            <a href="task-management.html" class="flex items-center px-4 py-3 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-dark-bg rounded-lg transition-colors">
+              <i class="fas fa-clipboard-list mr-3"></i>Task Management
+            </a>
+          </li>
+          <li>
+            <a href="reports.html" class="flex items-center px-4 py-3 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-dark-bg rounded-lg transition-colors">
+              <i class="fas fa-file-alt mr-3"></i>Reports
+            </a>
+          </li>
+          <li>
+            <a href="settings.html" class="flex items-center px-4 py-3 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-dark-bg rounded-lg transition-colors">
+              <i class="fas fa-cog mr-3"></i>Settings
+            </a>
+          </li>
+          <li class="pt-4 border-t dark:border-dark-border">
+            <a href="login.html" class="flex items-center px-4 py-3 text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-lg transition-colors">
+              <i class="fas fa-sign-out-alt mr-3"></i>Logout
+            </a>
+          </li>
+        </ul>
+      </nav>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="flex-1 overflow-y-auto p-8">
+      <!-- Page Header -->
+      <div class="mb-8">
+        <h2 class="text-2xl font-bold text-bpo-primary dark:text-white">Support Tickets</h2>
+        <p class="text-gray-500 dark:text-gray-400 mt-1">Manage and track customer support requests</p>
+      </div>
+
+      <!-- Ticket Stats -->
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+        <div class="bg-white dark:bg-dark-surface rounded-xl shadow-lg border dark:border-dark-border p-6">
+          <div class="flex items-center justify-between">
+            <div>
+              <p class="text-sm text-gray-500 dark:text-gray-400 font-medium">Open Tickets</p>
+              <p class="text-2xl font-bold text-bpo-primary dark:text-white mt-1">132</p>
+            </div>
+            <div class="p-3 bg-red-100 dark:bg-red-900/20 rounded-lg">
+              <i class="fas fa-exclamation-circle text-red-600 dark:text-red-400 text-xl"></i>
+            </div>
+          </div>
+          <div class="mt-2">
+            <span class="text-xs text-red-600 dark:text-red-400">+12% from yesterday</span>
+          </div>
+        </div>
+        <div class="bg-white dark:bg-dark-surface rounded-xl shadow-lg border dark:border-dark-border p-6">
+          <div class="flex items-center justify-between">
+            <div>
+              <p class="text-sm text-gray-500 dark:text-gray-400 font-medium">In Progress</p>
+              <p class="text-2xl font-bold text-bpo-primary dark:text-white mt-1">45</p>
+            </div>
+            <div class="p-3 bg-yellow-100 dark:bg-yellow-900/20 rounded-lg">
+              <i class="fas fa-clock text-yellow-600 dark:text-yellow-400 text-xl"></i>
+            </div>
+          </div>
+          <div class="mt-2">
+            <span class="text-xs text-yellow-600 dark:text-yellow-400">8 urgent</span>
+          </div>
+        </div>
+        <div class="bg-white dark:bg-dark-surface rounded-xl shadow-lg border dark:border-dark-border p-6">
+          <div class="flex items-center justify-between">
+            <div>
+              <p class="text-sm text-gray-500 dark:text-gray-400 font-medium">Resolved Today</p>
+              <p class="text-2xl font-bold text-bpo-primary dark:text-white mt-1">28</p>
+            </div>
+            <div class="p-3 bg-green-100 dark:bg-green-900/20 rounded-lg">
+              <i class="fas fa-check-circle text-green-600 dark:text-green-400 text-xl"></i>
+            </div>
+          </div>
+          <div class="mt-2">
+            <span class="text-xs text-green-600 dark:text-green-400">+5% from yesterday</span>
+          </div>
+        </div>
+        <div class="bg-white dark:bg-dark-surface rounded-xl shadow-lg border dark:border-dark-border p-6">
+          <div class="flex items-center justify-between">
+            <div>
+              <p class="text-sm text-gray-500 dark:text-gray-400 font-medium">Avg Response Time</p>
+              <p class="text-2xl font-bold text-bpo-primary dark:text-white mt-1">2.4h</p>
+            </div>
+            <div class="p-3 bg-blue-100 dark:bg-blue-900/20 rounded-lg">
+              <i class="fas fa-stopwatch text-bpo-primary dark:text-bpo-accent text-xl"></i>
+            </div>
+          </div>
+          <div class="mt-2">
+            <span class="text-xs text-green-600 dark:text-green-400">-15min from yesterday</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Filters and Actions -->
+      <div class="bg-white dark:bg-dark-surface rounded-xl shadow-lg border dark:border-dark-border p-6 mb-6">
+        <div class="flex flex-col lg:flex-row gap-4 items-center justify-between">
+          <div class="flex flex-wrap gap-4">
+            <div class="relative">
+              <i class="fas fa-search absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
+              <input type="text" placeholder="Search tickets..." 
+                class="pl-10 pr-4 py-2 rounded-lg border dark:border-dark-border dark:bg-dark-bg dark:text-white focus:outline-none focus:ring-2 focus:ring-bpo-accent" />
+            </div>
+            <select class="px-4 py-2 rounded-lg border dark:border-dark-border dark:bg-dark-bg dark:text-white focus:outline-none focus:ring-2 focus:ring-bpo-accent">
+              <option>All Priorities</option>
+              <option>Critical</option>
+              <option>High</option>
+              <option>Medium</option>
+              <option>Low</option>
+            </select>
+            <select class="px-4 py-2 rounded-lg border dark:border-dark-border dark:bg-dark-bg dark:text-white focus:outline-none focus:ring-2 focus:ring-bpo-accent">
+              <option>All Status</option>
+              <option>Open</option>
+              <option>In Progress</option>
+              <option>Pending</option>
+              <option>Resolved</option>
+              <option>Closed</option>
+            </select>
+            <select class="px-4 py-2 rounded-lg border dark:border-dark-border dark:bg-dark-bg dark:text-white focus:outline-none focus:ring-2 focus:ring-bpo-accent">
+              <option>All Agents</option>
+              <option>Sarah Wilson</option>
+              <option>Mike Johnson</option>
+              <option>Emma Davis</option>
+              <option>Unassigned</option>
+            </select>
+          </div>
+          <div class="flex gap-3">
+            <button class="px-4 py-2 border border-gray-300 dark:border-dark-border rounded-lg hover:bg-gray-100 dark:hover:bg-dark-bg transition-colors">
+              <i class="fas fa-download mr-2"></i>Export
+            </button>
+            <button class="px-6 py-2 bg-bpo-primary text-white font-semibold rounded-lg hover:bg-bpo-accent transition-colors">
+              <i class="fas fa-plus mr-2"></i>New Ticket
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Tickets Table -->
+      <div class="bg-white dark:bg-dark-surface rounded-xl shadow-lg border dark:border-dark-border overflow-hidden">
+        <div class="p-6 border-b dark:border-dark-border">
+          <div class="flex items-center justify-between">
+            <h3 class="text-lg font-semibold text-bpo-primary dark:text-white">Support Tickets</h3>
+            <div class="flex gap-2">
+              <button class="px-3 py-1 text-sm border border-gray-300 dark:border-dark-border rounded hover:bg-gray-100 dark:hover:bg-dark-bg transition-colors">
+                <i class="fas fa-sort mr-1"></i>Sort
+              </button>
+              <button class="px-3 py-1 text-sm border border-gray-300 dark:border-dark-border rounded hover:bg-gray-100 dark:hover:bg-dark-bg transition-colors">
+                <i class="fas fa-columns mr-1"></i>Columns
+              </button>
+            </div>
+          </div>
+        </div>
+        <div class="overflow-x-auto">
+          <table class="w-full">
+            <thead class="bg-gray-50 dark:bg-dark-bg">
+              <tr>
+                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Ticket ID</th>
+                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Subject</th>
+                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Customer</th>
+                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Priority</th>
+                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Status</th>
+                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Assigned To</th>
+                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Created</th>
+                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Actions</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-gray-200 dark:divide-dark-border">
+              <tr class="hover:bg-gray-50 dark:hover:bg-dark-bg transition-colors">
+                <td class="px-6 py-4 whitespace-nowrap">
+                  <div class="text-sm font-medium text-bpo-primary dark:text-bpo-accent">#TK-2025-001</div>
+                </td>
+                <td class="px-6 py-4">
+                  <div class="text-sm font-medium text-bpo-primary dark:text-white">Login Issues with Mobile App</div>
+                  <div class="text-sm text-gray-500 dark:text-gray-400">Customer unable to login after recent update...</div>
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap">
+                  <div class="flex items-center">
+                    <img class="h-8 w-8 rounded-full" src="/placeholder.svg?height=32&width=32" alt="Customer">
+                    <div class="ml-3">
+                      <div class="text-sm font-medium text-bpo-primary dark:text-white">John Smith</div>
+                      <div class="text-sm text-gray-500 dark:text-gray-400">TechCorp Solutions</div>
+                    </div>
+                  </div>
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap">
+                  <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-100 text-red-800 dark:bg-red-900/20 dark:text-red-400">Critical</span>
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap">
+                  <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-yellow-100 text-yellow-800 dark:bg-yellow-900/20 dark:text-yellow-400">In Progress</span>
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap">
+                  <div class="flex items-center">
+                    <img class="h-6 w-6 rounded-full" src="/placeholder.svg?height=24&width=24" alt="Agent">
+                    <div class="ml-2 text-sm text-gray-500 dark:text-gray-400">Sarah Wilson</div>
+                  </div>
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">2 hours ago</td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                  <div class="flex gap-2">
+                    <button class="text-bpo-primary dark:text-bpo-accent hover:underline">View</button>
+                    <button class="text-gray-600 dark:text-gray-400 hover:underline">Edit</button>
+                    <button class="text-green-600 dark:text-green-400 hover:underline">Resolve</button>
+                  </div>
+                </td>
+              </tr>
+              <tr class="hover:bg-gray-50 dark:hover:bg-dark-bg transition-colors">
+                <td class="px-6 py-4 whitespace-nowrap">
+                  <div class="text-sm font-medium text-bpo-primary dark:text-bpo-accent">#TK-2025-002</div>
+                </td>
+                <td class="px-6 py-4">
+                  <div class="text-sm font-medium text-bpo-primary dark:text-white">Billing Inquiry - Invoice Discrepancy</div>
+                  <div class="text-sm text-gray-500 dark:text-gray-400">Customer questioning charges on latest invoice...</div>
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap">
+                  <div class="flex items-center">
+                    <img class="h-8 w-8 rounded-full" src="/placeholder.svg?height=32&width=32" alt="Customer">
+                    <div class="ml-3">
+                      <div class="text-sm font-medium text-bpo-primary dark:text-white">Emily Davis</div>
+                      <div class="text-sm text-gray-500 dark:text-gray-400">Innovate Inc</div>
+                    </div>
+                  </div>
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap">
+                  <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-orange-100 text-orange-800 dark:bg-orange-900/20 dark:text-orange-400">High</span>
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap">
+                  <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-blue-100 text-blue-800 dark:bg-blue-900/20 dark:text-blue-400">Open</span>
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap">
+                  <div class="text-sm text-gray-500 dark:text-gray-400">Unassigned</div>
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">4 hours ago</td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                  <div class="flex gap-2">
+                    <button class="text-bpo-primary dark:text-bpo-accent hover:underline">View</button>
+                    <button class="text-gray-600 dark:text-gray-400 hover:underline">Assign</button>
+                    <button class="text-blue-600 dark:text-blue-400 hover:underline">Take</button>
+                  </div>
+                </td>
+              </tr>
+              <tr class="hover:bg-gray-50 dark:hover:bg-dark-bg transition-colors">
+                <td class="px-6 py-4 whitespace-nowrap">
+                  <div class="text-sm font-medium text-bpo-primary dark:text-bpo-accent">#TK-2025-003</div>
+                </td>
+                <td class="px-6 py-4">
+                  <div class="text-sm font-medium text-bpo-primary dark:text-white">Feature Request - Dashboard Enhancement</div>
+                  <div class="text-sm text-gray-500 dark:text-gray-400">Customer requesting additional widgets on dashboard...</div>
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap">
+                  <div class="flex items-center">
+                    <img class="h-8 w-8 rounded-full" src="/placeholder.svg?height=32&width=32" alt="Customer">
+                    <div class="ml-3">
+                      <div class="text-sm font-medium text-bpo-primary dark:text-white">Michael Brown</div>
+                      <div class="text-sm text-gray-500 dark:text-gray-400">Global Tech Ltd</div>
+                    </div>
+                  </div>
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap">
+                  <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-yellow-100 text-yellow-800 dark:bg-yellow-900/20 dark:text-yellow-400">Medium</span>
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap">
+                  <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800 dark:bg-green-900/20 dark:text-green-400">Resolved</span>
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap">
+                  <div class="flex items-center">
+                    <img class="h-6 w-6 rounded-full" src="/placeholder.svg?height=24&width=24" alt="Agent">
+                    <div class="ml-2 text-sm text-gray-500 dark:text-gray-400">Mike Johnson</div>
+                  </div>
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">1 day ago</td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                  <div class="flex gap-2">
+                    <button class="text-bpo-primary dark:text-bpo-accent hover:underline">View</button>
+                    <button class="text-gray-600 dark:text-gray-400 hover:underline">Reopen</button>
+                    <button class="text-red-600 dark:text-red-400 hover:underline">Close</button>
+                  </div>
+                </td>
+              </tr>
+              <tr class="hover:bg-gray-50 dark:hover:bg-dark-bg transition-colors">
+                <td class="px-6 py-4 whitespace-nowrap">
+                  <div class="text-sm font-medium text-bpo-primary dark:text-bpo-accent">#TK-2025-004</div>
+                </td>
+                <td class="px-6 py-4">
+                  <div class="text-sm font-medium text-bpo-primary dark:text-white">Password Reset Request</div>
+                  <div class="text-sm text-gray-500 dark:text-gray-400">Customer unable to reset password via email...</div>
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap">
+                  <div class="flex items-center">
+                    <img class="h-8 w-8 rounded-full" src="/placeholder.svg?height=32&width=32" alt="Customer">
+                    <div class="ml-3">
+                      <div class="text-sm font-medium text-bpo-primary dark:text-white">Lisa Anderson</div>
+                      <div class="text-sm text-gray-500 dark:text-gray-400">RetailPlus Corp</div>
+                    </div>
+                  </div>
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap">
+                  <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800 dark:bg-green-900/20 dark:text-green-400">Low</span>
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap">
+                  <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-purple-100 text-purple-800 dark:bg-purple-900/20 dark:text-purple-400">Pending</span>
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap">
+                  <div class="flex items-center">
+                    <img class="h-6 w-6 rounded-full" src="/placeholder.svg?height=24&width=24" alt="Agent">
+                    <div class="ml-2 text-sm text-gray-500 dark:text-gray-400">Emma Davis</div>
+                  </div>
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">6 hours ago</td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                  <div class="flex gap-2">
+                    <button class="text-bpo-primary dark:text-bpo-accent hover:underline">View</button>
+                    <button class="text-gray-600 dark:text-gray-400 hover:underline">Edit</button>
+                    <button class="text-green-600 dark:text-green-400 hover:underline">Resolve</button>
+                  </div>
+                </td>
+              </tr>
+              <tr class="hover:bg-gray-50 dark:hover:bg-dark-bg transition-colors">
+                <td class="px-6 py-4 whitespace-nowrap">
+                  <div class="text-sm font-medium text-bpo-primary dark:text-bpo-accent">#TK-2025-005</div>
+                </td>
+                <td class="px-6 py-4">
+                  <div class="text-sm font-medium text-bpo-primary dark:text-white">API Integration Support</div>
+                  <div class="text-sm text-gray-500 dark:text-gray-400">Customer needs help with API endpoint configuration...</div>
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap">
+                  <div class="flex items-center">
+                    <img class="h-8 w-8 rounded-full" src="/placeholder.svg?height=32&width=32" alt="Customer">
+                    <div class="ml-3">
+                      <div class="text-sm font-medium text-bpo-primary dark:text-white">Robert Wilson</div>
+                      <div class="text-sm text-gray-500 dark:text-gray-400">Wilson Manufacturing</div>
+                    </div>
+                  </div>
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap">
+                  <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-orange-100 text-orange-800 dark:bg-orange-900/20 dark:text-orange-400">High</span>
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap">
+                  <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-yellow-100 text-yellow-800 dark:bg-yellow-900/20 dark:text-yellow-400">In Progress</span>
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap">
+                  <div class="flex items-center">
+                    <img class="h-6 w-6 rounded-full" src="/placeholder.svg?height=24&width=24" alt="Agent">
+                    <div class="ml-2 text-sm text-gray-500 dark:text-gray-400">David Chen</div>
+                  </div>
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">8 hours ago</td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                  <div class="flex gap-2">
+                    <button class="text-bpo-primary dark:text-bpo-accent hover:underline">View</button>
+                    <button class="text-gray-600 dark:text-gray-400 hover:underline">Edit</button>
+                    <button class="text-green-600 dark:text-green-400 hover:underline">Resolve</button>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        
+        <!-- Pagination -->
+        <div class="px-6 py-4 border-t dark:border-dark-border">
+          <div class="flex items-center justify-between">
+            <div class="text-sm text-gray-500 dark:text-gray-400">
+              Showing 1 to 5 of 132 tickets
+            </div>
+            <div class="flex gap-2">
+              <button class="px-3 py-1 text-sm border border-gray-300 dark:border-dark-border rounded hover:bg-gray-100 dark:hover:bg-dark-bg transition-colors">
+                Previous
+              </button>
+              <button class="px-3 py-1 text-sm bg-bpo-primary text-white rounded hover:bg-bpo-accent transition-colors">
+                1
+              </button>
+              <button class="px-3 py-1 text-sm border border-gray-300 dark:border-dark-border rounded hover:bg-gray-100 dark:hover:bg-dark-bg transition-colors">
+                2
+              </button>
+              <button class="px-3 py-1 text-sm border border-gray-300 dark:border-dark-border rounded hover:bg-gray-100 dark:hover:bg-dark-bg transition-colors">
+                3
+              </button>
+              <button class="px-3 py-1 text-sm border border-gray-300 dark:border-dark-border rounded hover:bg-gray-100 dark:hover:bg-dark-bg transition-colors">
+                Next
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Footer -->
+      <div class="mt-8 text-center text-sm text-gray-500 dark:text-gray-400">
+        © 2025 BPO CMS. All rights reserved.
+      </div>
+    </main>
+  </div>
+
+
+
+  <!-- 🧠 Theme toggle behavior -->
+  <script>
+    const toggleButton = document.getElementById('themeToggle');
+    const icon = document.getElementById('themeIcon');
+    const html = document.documentElement;
+
+    const updateIcon = () => {
+      icon.classList.toggle('fa-sun', !html.classList.contains('dark'));
+      icon.classList.toggle('fa-moon', html.classList.contains('dark'));
+    };
+
+    toggleButton.addEventListener('click', () => {
+      html.classList.toggle('dark');
+      localStorage.setItem('theme', html.classList.contains('dark') ? 'dark' : 'light');
+      updateIcon();
+    });
+
+    // 🔄 Initialize icon state
+    updateIcon();
+  </script>
+  
+
+</body>
+</html>
