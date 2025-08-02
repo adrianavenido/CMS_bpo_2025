@@ -1,0 +1,49 @@
+version: '3.8'
+
+services:
+  # PostgreSQL Database
+  postgres:
+    image: postgres:15-alpine
+    container_name: bpo_cms_postgres
+    environment:
+      POSTGRES_DB: bpo_cms
+      POSTGRES_USER: bpo_user
+      POSTGRES_PASSWORD: bpo_password
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - bpo_network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U bpo_user -d bpo_cms"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # Node.js Application
+  app:
+    build: .
+    container_name: bpo_cms_app
+    ports:
+      - "3000:3000"
+    environment:
+      NODE_ENV: development
+      DATABASE_URL: postgresql://bpo_user:bpo_password@postgres:5432/bpo_cms
+      SESSION_SECRET: your-local-dev-secret-key
+      PORT: 3000
+    depends_on:
+      postgres:
+        condition: service_healthy
+    networks:
+      - bpo_network
+    volumes:
+      - .:/app
+      - /app/node_modules
+
+volumes:
+  postgres_data:
+
+networks:
+  bpo_network:
+    driver: bridge 
