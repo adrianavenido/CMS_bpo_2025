@@ -1,0 +1,987 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>BPO CMS - Agents</title>
+
+
+  <!-- ⏰ Smart default theme logic (before render) -->
+  <script>
+    const savedTheme = localStorage.getItem('theme');
+    if (!savedTheme) {
+      const hour = new Date().getHours();
+      const isNight = hour >= 18 || hour < 6;
+      document.documentElement.classList.toggle('dark', isNight);
+    } else {
+      document.documentElement.classList.toggle('dark', savedTheme === 'dark');
+    }
+  </script>
+
+  <!-- Tailwind and custom dark mode config -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            'bpo-primary': '#0d47a1',
+            'bpo-accent': '#1e88e5',
+            'dark-bg': '#0f172a',
+            'dark-surface': '#1e293b',
+            'dark-border': '#334155',
+          }
+        }
+      }
+    }
+  </script>
+
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            'bpo-primary': '#0d47a1',
+            'bpo-accent': '#1e88e5',
+            'dark-bg': '#0f172a',
+            'dark-surface': '#1e293b',
+            'dark-border': '#334155',
+          }
+        }
+      }
+    }
+  </script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body class="bg-gray-100 dark:bg-dark-bg text-gray-800 dark:text-white transition-colors duration-300">
+  
+  <!-- Header -->
+  <header class="bg-white dark:bg-dark-surface shadow-lg border-b dark:border-dark-border">
+    <div class="flex items-center justify-between px-6 py-4">
+      <div class="flex items-center gap-2">
+        <i class="fas fa-headset text-bpo-primary dark:text-bpo-accent text-2xl"></i>
+        <h1 class="text-xl font-bold text-bpo-primary dark:text-white">BPO CMS</h1>
+      </div>
+      <div class="flex items-center space-x-4">
+        <button id="themeToggle" class="p-2 rounded-full hover:bg-gray-200 dark:hover:bg-dark-surface transition">
+          <i id="themeIcon" class="fas fa-sun text-xl dark:text-white"></i>
+        </button>
+        <div class="relative">
+          <button class="p-2 rounded-full hover:bg-gray-200 dark:hover:bg-dark-surface transition">
+            <i class="fas fa-bell text-xl"></i>
+            <span class="absolute -top-1 -right-1 bg-red-500 text-xs rounded-full h-5 w-5 flex items-center justify-center">3</span>
+          </button>
+        </div>
+        <div class="flex items-center space-x-2">
+          <img src="/placeholder.svg?height=32&width=32" alt="User" class="w-8 h-8 rounded-full" />
+          <div class="text-sm">
+            <div class="font-medium">Alex Martin</div>
+            <div class="text-gray-500 dark:text-gray-400 text-xs">Ops Manager</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <div class="flex min-h-screen">
+    <!-- Sidebar -->
+    <aside class="w-64 bg-white dark:bg-dark-surface shadow-lg border-r dark:border-dark-border">
+      <nav class="mt-6">
+        <div class="px-6 py-2">
+          <h2 class="text-sm uppercase font-semibold text-gray-500 dark:text-gray-400 tracking-wider">Navigation</h2>
+        </div>
+        <ul class="space-y-2 px-4 mt-4">
+          <li>
+            <a href="index.html" class="flex items-center px-4 py-3 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-dark-bg rounded-lg transition-colors">
+              <i class="fas fa-chart-line mr-3"></i>Dashboard
+            </a>
+          </li>
+          <li>
+            <a href="clients.html" class="flex items-center px-4 py-3 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-dark-bg rounded-lg transition-colors">
+              <i class="fas fa-users mr-3"></i>Clients
+            </a>
+          </li>
+          <li>
+            <a href="support-tickets.html" class="flex items-center px-4 py-3 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-dark-bg rounded-lg transition-colors">
+              <i class="fas fa-ticket-alt mr-3"></i>Support Tickets
+            </a>
+          </li>
+          <li>
+            <a href="agents.html" class="flex items-center px-4 py-3 bg-bpo-primary text-white rounded-lg">
+              <i class="fas fa-user-friends mr-3"></i>Agents
+            </a>
+          </li>
+          <li>
+            <a href="task-management.html" class="flex items-center px-4 py-3 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-dark-bg rounded-lg transition-colors">
+              <i class="fas fa-clipboard-list mr-3"></i>Task Management
+            </a>
+          </li>
+          <li>
+            <a href="reports.html" class="flex items-center px-4 py-3 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-dark-bg rounded-lg transition-colors">
+              <i class="fas fa-file-alt mr-3"></i>Reports
+            </a>
+          </li>
+          <li>
+            <a href="settings.html" class="flex items-center px-4 py-3 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-dark-bg rounded-lg transition-colors">
+              <i class="fas fa-cog mr-3"></i>Settings
+            </a>
+          </li>
+          <li class="pt-4 border-t dark:border-dark-border">
+            <a href="login.html" class="flex items-center px-4 py-3 text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-lg transition-colors">
+              <i class="fas fa-sign-out-alt mr-3"></i>Logout
+            </a>
+          </li>
+        </ul>
+      </nav>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="flex-1 overflow-y-auto p-8">
+      <!-- Page Header -->
+      <div class="mb-8">
+        <h2 class="text-2xl font-bold text-bpo-primary dark:text-white">Agent Management</h2>
+        <p class="text-gray-500 dark:text-gray-400 mt-1">Monitor and manage your support team</p>
+      </div>
+
+      <!-- Agent Stats -->
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+        <div class="bg-white dark:bg-dark-surface rounded-xl shadow-lg border dark:border-dark-border p-6">
+          <div class="flex items-center justify-between">
+            <div>
+              <p class="text-sm text-gray-500 dark:text-gray-400 font-medium">Total Agents</p>
+              <p class="text-2xl font-bold text-bpo-primary dark:text-white mt-1">58</p>
+            </div>
+            <div class="p-3 bg-blue-100 dark:bg-blue-900/20 rounded-lg">
+              <i class="fas fa-user-friends text-bpo-primary dark:text-bpo-accent text-xl"></i>
+            </div>
+          </div>
+          <div class="mt-2">
+            <span class="text-xs text-green-600 dark:text-green-400">+3 this month</span>
+          </div>
+        </div>
+        <div class="bg-white dark:bg-dark-surface rounded-xl shadow-lg border dark:border-dark-border p-6">
+          <div class="flex items-center justify-between">
+            <div>
+              <p class="text-sm text-gray-500 dark:text-gray-400 font-medium">Online Now</p>
+              <p class="text-2xl font-bold text-bpo-primary dark:text-white mt-1">42</p>
+            </div>
+            <div class="p-3 bg-green-100 dark:bg-green-900/20 rounded-lg">
+              <i class="fas fa-circle text-green-600 dark:text-green-400 text-xl"></i>
+            </div>
+          </div>
+          <div class="mt-2">
+            <span class="text-xs text-gray-500 dark:text-gray-400">72% availability</span>
+          </div>
+        </div>
+        <div class="bg-white dark:bg-dark-surface rounded-xl shadow-lg border dark:border-dark-border p-6">
+          <div class="flex items-center justify-between">
+            <div>
+              <p class="text-sm text-gray-500 dark:text-gray-400 font-medium">Avg Rating</p>
+              <p class="text-2xl font-bold text-bpo-primary dark:text-white mt-1">4.8</p>
+            </div>
+            <div class="p-3 bg-yellow-100 dark:bg-yellow-900/20 rounded-lg">
+              <i class="fas fa-star text-yellow-600 dark:text-yellow-400 text-xl"></i>
+            </div>
+          </div>
+          <div class="mt-2">
+            <span class="text-xs text-green-600 dark:text-green-400">+0.2 this week</span>
+          </div>
+        </div>
+        <div class="bg-white dark:bg-dark-surface rounded-xl shadow-lg border dark:border-dark-border p-6">
+          <div class="flex items-center justify-between">
+            <div>
+              <p class="text-sm text-gray-500 dark:text-gray-400 font-medium">On Break</p>
+              <p class="text-2xl font-bold text-bpo-primary dark:text-white mt-1">8</p>
+            </div>
+            <div class="p-3 bg-orange-100 dark:bg-orange-900/20 rounded-lg">
+              <i class="fas fa-pause-circle text-orange-600 dark:text-orange-400 text-xl"></i>
+            </div>
+          </div>
+          <div class="mt-2">
+            <span class="text-xs text-gray-500 dark:text-gray-400">14% of team</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Search and Filters -->
+      <div class="bg-white dark:bg-dark-surface rounded-xl shadow-lg border dark:border-dark-border p-6 mb-6">
+        <div class="flex flex-col lg:flex-row gap-4 items-center justify-between">
+          <div class="flex flex-wrap gap-4 flex-1">
+            <div class="relative">
+              <i class="fas fa-search absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
+              <input type="text" placeholder="Search agents..." 
+                class="pl-10 pr-4 py-2 rounded-lg border dark:border-dark-border dark:bg-dark-bg dark:text-white focus:outline-none focus:ring-2 focus:ring-bpo-accent" />
+            </div>
+            <select class="px-4 py-2 rounded-lg border dark:border-dark-border dark:bg-dark-bg dark:text-white focus:outline-none focus:ring-2 focus:ring-bpo-accent">
+              <option>All Status</option>
+              <option>Online</option>
+              <option>Offline</option>
+              <option>On Break</option>
+              <option>Away</option>
+            </select>
+            <select class="px-4 py-2 rounded-lg border dark:border-dark-border dark:bg-dark-bg dark:text-white focus:outline-none focus:ring-2 focus:ring-bpo-accent">
+              <option>All Departments</option>
+              <option>Customer Support</option>
+              <option>Technical Support</option>
+              <option>Sales</option>
+              <option>Billing</option>
+            </select>
+            <select class="px-4 py-2 rounded-lg border dark:border-dark-border dark:bg-dark-bg dark:text-white focus:outline-none focus:ring-2 focus:ring-bpo-accent">
+              <option>All Roles</option>
+              <option>Team Lead</option>
+              <option>Senior Agent</option>
+              <option>Support Agent</option>
+              <option>Junior Agent</option>
+            </select>
+          </div>
+          <div class="flex gap-3">
+            <button class="px-4 py-2 border border-gray-300 dark:border-dark-border rounded-lg hover:bg-gray-100 dark:hover:bg-dark-bg transition-colors">
+              <i class="fas fa-download mr-2"></i>Export
+            </button>
+            <button class="px-6 py-2 bg-bpo-primary text-white font-semibold rounded-lg hover:bg-bpo-accent transition-colors">
+              <i class="fas fa-plus mr-2"></i>Add Agent
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- View Toggle -->
+      <div class="flex justify-between items-center mb-6">
+        <div class="flex gap-2">
+          <button id="gridView" class="px-4 py-2 bg-bpo-primary text-white rounded-lg transition-colors">
+            <i class="fas fa-th-large mr-2"></i>Grid View
+          </button>
+          <button id="listView" class="px-4 py-2 border border-gray-300 dark:border-dark-border rounded-lg hover:bg-gray-100 dark:hover:bg-dark-bg transition-colors">
+            <i class="fas fa-list mr-2"></i>List View
+          </button>
+        </div>
+        <div class="text-sm text-gray-500 dark:text-gray-400">
+          Showing 58 agents
+        </div>
+      </div>
+
+      <!-- Agents Grid View -->
+      <div id="agentsGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+        <!-- Agent Card 1 -->
+        <div class="bg-white dark:bg-dark-surface rounded-xl shadow-lg border dark:border-dark-border p-6 hover:shadow-xl transition-shadow">
+          <div class="flex items-center justify-between mb-4">
+            <div class="flex items-center gap-3">
+              <div class="relative">
+                <img src="/placeholder.svg?height=48&width=48" alt="Agent" class="w-12 h-12 rounded-full" />
+                <div class="absolute -bottom-1 -right-1 w-4 h-4 bg-green-500 rounded-full border-2 border-white dark:border-dark-surface"></div>
+              </div>
+              <div>
+                <h3 class="font-semibold text-bpo-primary dark:text-white">Sarah Wilson</h3>
+                <p class="text-sm text-gray-500 dark:text-gray-400">Senior Agent</p>
+              </div>
+            </div>
+            <span class="px-2 py-1 text-xs font-semibold rounded-full bg-green-100 text-green-800 dark:bg-green-900/20 dark:text-green-400">Online</span>
+          </div>
+          
+          <div class="space-y-3 mb-4">
+            <div class="flex justify-between text-sm">
+              <span class="text-gray-500 dark:text-gray-400">Department:</span>
+              <span class="font-medium">Customer Support</span>
+            </div>
+            <div class="flex justify-between text-sm">
+              <span class="text-gray-500 dark:text-gray-400">Active Tickets:</span>
+              <span class="font-medium text-blue-600 dark:text-blue-400">12</span>
+            </div>
+            <div class="flex justify-between text-sm">
+              <span class="text-gray-500 dark:text-gray-400">Resolved Today:</span>
+              <span class="font-medium text-green-600 dark:text-green-400">8</span>
+            </div>
+            <div class="flex justify-between text-sm">
+              <span class="text-gray-500 dark:text-gray-400">Rating:</span>
+              <div class="flex items-center gap-1">
+                <span class="font-medium">4.9</span>
+                <div class="flex">
+                  <i class="fas fa-star text-yellow-500 text-xs"></i>
+                  <i class="fas fa-star text-yellow-500 text-xs"></i>
+                  <i class="fas fa-star text-yellow-500 text-xs"></i>
+                  <i class="fas fa-star text-yellow-500 text-xs"></i>
+                  <i class="fas fa-star text-yellow-500 text-xs"></i>
+                </div>
+              </div>
+            </div>
+            <div class="flex justify-between text-sm">
+              <span class="text-gray-500 dark:text-gray-400">Response Time:</span>
+              <span class="font-medium">1.2h avg</span>
+            </div>
+          </div>
+          
+          <div class="flex gap-2">
+            <button class="flex-1 px-3 py-2 text-sm bg-bpo-primary text-white rounded hover:bg-bpo-accent transition-colors">
+              View Profile
+            </button>
+            <button class="px-3 py-2 text-sm border border-gray-300 dark:border-dark-border rounded hover:bg-gray-100 dark:hover:bg-dark-bg transition-colors">
+              <i class="fas fa-envelope"></i>
+            </button>
+            <button class="px-3 py-2 text-sm border border-gray-300 dark:border-dark-border rounded hover:bg-gray-100 dark:hover:bg-dark-bg transition-colors">
+              <i class="fas fa-phone"></i>
+            </button>
+          </div>
+        </div>
+
+        <!-- Agent Card 2 -->
+        <div class="bg-white dark:bg-dark-surface rounded-xl shadow-lg border dark:border-dark-border p-6 hover:shadow-xl transition-shadow">
+          <div class="flex items-center justify-between mb-4">
+            <div class="flex items-center gap-3">
+              <div class="relative">
+                <img src="/placeholder.svg?height=48&width=48" alt="Agent" class="w-12 h-12 rounded-full" />
+                <div class="absolute -bottom-1 -right-1 w-4 h-4 bg-yellow-500 rounded-full border-2 border-white dark:border-dark-surface"></div>
+              </div>
+              <div>
+                <h3 class="font-semibold text-bpo-primary dark:text-white">Mike Johnson</h3>
+                <p class="text-sm text-gray-500 dark:text-gray-400">Support Agent</p>
+              </div>
+            </div>
+            <span class="px-2 py-1 text-xs font-semibold rounded-full bg-yellow-100 text-yellow-800 dark:bg-yellow-900/20 dark:text-yellow-400">On Break</span>
+          </div>
+          
+          <div class="space-y-3 mb-4">
+            <div class="flex justify-between text-sm">
+              <span class="text-gray-500 dark:text-gray-400">Department:</span>
+              <span class="font-medium">Technical Support</span>
+            </div>
+            <div class="flex justify-between text-sm">
+              <span class="text-gray-500 dark:text-gray-400">Active Tickets:</span>
+              <span class="font-medium text-blue-600 dark:text-blue-400">6</span>
+            </div>
+            <div class="flex justify-between text-sm">
+              <span class="text-gray-500 dark:text-gray-400">Resolved Today:</span>
+              <span class="font-medium text-green-600 dark:text-green-400">5</span>
+            </div>
+            <div class="flex justify-between text-sm">
+              <span class="text-gray-500 dark:text-gray-400">Rating:</span>
+              <div class="flex items-center gap-1">
+                <span class="font-medium">4.7</span>
+                <div class="flex">
+                  <i class="fas fa-star text-yellow-500 text-xs"></i>
+                  <i class="fas fa-star text-yellow-500 text-xs"></i>
+                  <i class="fas fa-star text-yellow-500 text-xs"></i>
+                  <i class="fas fa-star text-yellow-500 text-xs"></i>
+                  <i class="far fa-star text-yellow-500 text-xs"></i>
+                </div>
+              </div>
+            </div>
+            <div class="flex justify-between text-sm">
+              <span class="text-gray-500 dark:text-gray-400">Response Time:</span>
+              <span class="font-medium">1.8h avg</span>
+            </div>
+          </div>
+          
+          <div class="flex gap-2">
+            <button class="flex-1 px-3 py-2 text-sm bg-bpo-primary text-white rounded hover:bg-bpo-accent transition-colors">
+              View Profile
+            </button>
+            <button class="px-3 py-2 text-sm border border-gray-300 dark:border-dark-border rounded hover:bg-gray-100 dark:hover:bg-dark-bg transition-colors">
+              <i class="fas fa-envelope"></i>
+            </button>
+            <button class="px-3 py-2 text-sm border border-gray-300 dark:border-dark-border rounded hover:bg-gray-100 dark:hover:bg-dark-bg transition-colors">
+              <i class="fas fa-phone"></i>
+            </button>
+          </div>
+        </div>
+
+        <!-- Agent Card 3 -->
+        <div class="bg-white dark:bg-dark-surface rounded-xl shadow-lg border dark:border-dark-border p-6 hover:shadow-xl transition-shadow">
+          <div class="flex items-center justify-between mb-4">
+            <div class="flex items-center gap-3">
+              <div class="relative">
+                <img src="/placeholder.svg?height=48&width=48" alt="Agent" class="w-12 h-12 rounded-full" />
+                <div class="absolute -bottom-1 -right-1 w-4 h-4 bg-green-500 rounded-full border-2 border-white dark:border-dark-surface"></div>
+              </div>
+              <div>
+                <h3 class="font-semibold text-bpo-primary dark:text-white">Emma Davis</h3>
+                <p class="text-sm text-gray-500 dark:text-gray-400">Team Lead</p>
+              </div>
+            </div>
+            <span class="px-2 py-1 text-xs font-semibold rounded-full bg-green-100 text-green-800 dark:bg-green-900/20 dark:text-green-400">Online</span>
+          </div>
+          
+          <div class="space-y-3 mb-4">
+            <div class="flex justify-between text-sm">
+              <span class="text-gray-500 dark:text-gray-400">Department:</span>
+              <span class="font-medium">Customer Support</span>
+            </div>
+            <div class="flex justify-between text-sm">
+              <span class="text-gray-500 dark:text-gray-400">Active Tickets:</span>
+              <span class="font-medium text-blue-600 dark:text-blue-400">15</span>
+            </div>
+            <div class="flex justify-between text-sm">
+              <span class="text-gray-500 dark:text-gray-400">Resolved Today:</span>
+              <span class="font-medium text-green-600 dark:text-green-400">11</span>
+            </div>
+            <div class="flex justify-between text-sm">
+              <span class="text-gray-500 dark:text-gray-400">Rating:</span>
+              <div class="flex items-center gap-1">
+                <span class="font-medium">4.8</span>
+                <div class="flex">
+                  <i class="fas fa-star text-yellow-500 text-xs"></i>
+                  <i class="fas fa-star text-yellow-500 text-xs"></i>
+                  <i class="fas fa-star text-yellow-500 text-xs"></i>
+                  <i class="fas fa-star text-yellow-500 text-xs"></i>
+                  <i class="fas fa-star text-yellow-500 text-xs"></i>
+                </div>
+              </div>
+            </div>
+            <div class="flex justify-between text-sm">
+              <span class="text-gray-500 dark:text-gray-400">Response Time:</span>
+              <span class="font-medium">0.9h avg</span>
+            </div>
+          </div>
+          
+          <div class="flex gap-2">
+            <button class="flex-1 px-3 py-2 text-sm bg-bpo-primary text-white rounded hover:bg-bpo-accent transition-colors">
+              View Profile
+            </button>
+            <button class="px-3 py-2 text-sm border border-gray-300 dark:border-dark-border rounded hover:bg-gray-100 dark:hover:bg-dark-bg transition-colors">
+              <i class="fas fa-envelope"></i>
+            </button>
+            <button class="px-3 py-2 text-sm border border-gray-300 dark:border-dark-border rounded hover:bg-gray-100 dark:hover:bg-dark-bg transition-colors">
+              <i class="fas fa-phone"></i>
+            </button>
+          </div>
+        </div>
+
+        <!-- Agent Card 4 -->
+        <div class="bg-white dark:bg-dark-surface rounded-xl shadow-lg border dark:border-dark-border p-6 hover:shadow-xl transition-shadow">
+          <div class="flex items-center justify-between mb-4">
+            <div class="flex items-center gap-3">
+              <div class="relative">
+                <img src="/placeholder.svg?height=48&width=48" alt="Agent" class="w-12 h-12 rounded-full" />
+                <div class="absolute -bottom-1 -right-1 w-4 h-4 bg-gray-500 rounded-full border-2 border-white dark:border-dark-surface"></div>
+              </div>
+              <div>
+                <h3 class="font-semibold text-bpo-primary dark:text-white">David Chen</h3>
+                <p class="text-sm text-gray-500 dark:text-gray-400">Support Agent</p>
+              </div>
+            </div>
+            <span class="px-2 py-1 text-xs font-semibold rounded-full bg-gray-100 text-gray-800 dark:bg-gray-800 dark:text-gray-300">Offline</span>
+          </div>
+          
+          <div class="space-y-3 mb-4">
+            <div class="flex justify-between text-sm">
+              <span class="text-gray-500 dark:text-gray-400">Department:</span>
+              <span class="font-medium">Billing</span>
+            </div>
+            <div class="flex justify-between text-sm">
+              <span class="text-gray-500 dark:text-gray-400">Active Tickets:</span>
+              <span class="font-medium text-gray-500 dark:text-gray-400">0</span>
+            </div>
+            <div class="flex justify-between text-sm">
+              <span class="text-gray-500 dark:text-gray-400">Resolved Today:</span>
+              <span class="font-medium text-gray-500 dark:text-gray-400">0</span>
+            </div>
+            <div class="flex justify-between text-sm">
+              <span class="text-gray-500 dark:text-gray-400">Rating:</span>
+              <div class="flex items-center gap-1">
+                <span class="font-medium">4.6</span>
+                <div class="flex">
+                  <i class="fas fa-star text-yellow-500 text-xs"></i>
+                  <i class="fas fa-star text-yellow-500 text-xs"></i>
+                  <i class="fas fa-star text-yellow-500 text-xs"></i>
+                  <i class="fas fa-star text-yellow-500 text-xs"></i>
+                  <i class="far fa-star text-yellow-500 text-xs"></i>
+                </div>
+              </div>
+            </div>
+            <div class="flex justify-between text-sm">
+              <span class="text-gray-500 dark:text-gray-400">Last Active:</span>
+              <span class="font-medium">2 hours ago</span>
+            </div>
+          </div>
+          
+          <div class="flex gap-2">
+            <button class="flex-1 px-3 py-2 text-sm bg-bpo-primary text-white rounded hover:bg-bpo-accent transition-colors">
+              View Profile
+            </button>
+            <button class="px-3 py-2 text-sm border border-gray-300 dark:border-dark-border rounded hover:bg-gray-100 dark:hover:bg-dark-bg transition-colors">
+              <i class="fas fa-envelope"></i>
+            </button>
+            <button class="px-3 py-2 text-sm border border-gray-300 dark:border-dark-border rounded hover:bg-gray-100 dark:hover:bg-dark-bg transition-colors">
+              <i class="fas fa-phone"></i>
+            </button>
+          </div>
+        </div>
+
+        <!-- Agent Card 5 -->
+        <div class="bg-white dark:bg-dark-surface rounded-xl shadow-lg border dark:border-dark-border p-6 hover:shadow-xl transition-shadow">
+          <div class="flex items-center justify-between mb-4">
+            <div class="flex items-center gap-3">
+              <div class="relative">
+                <img src="/placeholder.svg?height=48&width=48" alt="Agent" class="w-12 h-12 rounded-full" />
+                <div class="absolute -bottom-1 -right-1 w-4 h-4 bg-green-500 rounded-full border-2 border-white dark:border-dark-surface"></div>
+              </div>
+              <div>
+                <h3 class="font-semibold text-bpo-primary dark:text-white">Lisa Rodriguez</h3>
+                <p class="text-sm text-gray-500 dark:text-gray-400">Senior Agent</p>
+              </div>
+            </div>
+            <span class="px-2 py-1 text-xs font-semibold rounded-full bg-green-100 text-green-800 dark:bg-green-900/20 dark:text-green-400">Online</span>
+          </div>
+          
+          <div class="space-y-3 mb-4">
+            <div class="flex justify-between text-sm">
+              <span class="text-gray-500 dark:text-gray-400">Department:</span>
+              <span class="font-medium">Sales</span>
+            </div>
+            <div class="flex justify-between text-sm">
+              <span class="text-gray-500 dark:text-gray-400">Active Tickets:</span>
+              <span class="font-medium text-blue-600 dark:text-blue-400">9</span>
+            </div>
+            <div class="flex justify-between text-sm">
+              <span class="text-gray-500 dark:text-gray-400">Resolved Today:</span>
+              <span class="font-medium text-green-600 dark:text-green-400">7</span>
+            </div>
+            <div class="flex justify-between text-sm">
+              <span class="text-gray-500 dark:text-gray-400">Rating:</span>
+              <div class="flex items-center gap-1">
+                <span class="font-medium">4.9</span>
+                <div class="flex">
+                  <i class="fas fa-star text-yellow-500 text-xs"></i>
+                  <i class="fas fa-star text-yellow-500 text-xs"></i>
+                  <i class="fas fa-star text-yellow-500 text-xs"></i>
+                  <i class="fas fa-star text-yellow-500 text-xs"></i>
+                  <i class="fas fa-star text-yellow-500 text-xs"></i>
+                </div>
+              </div>
+            </div>
+            <div class="flex justify-between text-sm">
+              <span class="text-gray-500 dark:text-gray-400">Response Time:</span>
+              <span class="font-medium">1.1h avg</span>
+            </div>
+          </div>
+          
+          <div class="flex gap-2">
+            <button class="flex-1 px-3 py-2 text-sm bg-bpo-primary text-white rounded hover:bg-bpo-accent transition-colors">
+              View Profile
+            </button>
+            <button class="px-3 py-2 text-sm border border-gray-300 dark:border-dark-border rounded hover:bg-gray-100 dark:hover:bg-dark-bg transition-colors">
+              <i class="fas fa-envelope"></i>
+            </button>
+            <button class="px-3 py-2 text-sm border border-gray-300 dark:border-dark-border rounded hover:bg-gray-100 dark:hover:bg-dark-bg transition-colors">
+              <i class="fas fa-phone"></i>
+            </button>
+          </div>
+        </div>
+
+        <!-- Agent Card 6 -->
+        <div class="bg-white dark:bg-dark-surface rounded-xl shadow-lg border dark:border-dark-border p-6 hover:shadow-xl transition-shadow">
+          <div class="flex items-center justify-between mb-4">
+            <div class="flex items-center gap-3">
+              <div class="relative">
+                <img src="/placeholder.svg?height=48&width=48" alt="Agent" class="w-12 h-12 rounded-full" />
+                <div class="absolute -bottom-1 -right-1 w-4 h-4 bg-orange-500 rounded-full border-2 border-white dark:border-dark-surface"></div>
+              </div>
+              <div>
+                <h3 class="font-semibold text-bpo-primary dark:text-white">James Thompson</h3>
+                <p class="text-sm text-gray-500 dark:text-gray-400">Junior Agent</p>
+              </div>
+            </div>
+            <span class="px-2 py-1 text-xs font-semibold rounded-full bg-orange-100 text-orange-800 dark:bg-orange-900/20 dark:text-orange-400">Away</span>
+          </div>
+          
+          <div class="space-y-3 mb-4">
+            <div class="flex justify-between text-sm">
+              <span class="text-gray-500 dark:text-gray-400">Department:</span>
+              <span class="font-medium">Customer Support</span>
+            </div>
+            <div class="flex justify-between text-sm">
+              <span class="text-gray-500 dark:text-gray-400">Active Tickets:</span>
+              <span class="font-medium text-blue-600 dark:text-blue-400">4</span>
+            </div>
+            <div class="flex justify-between text-sm">
+              <span class="text-gray-500 dark:text-gray-400">Resolved Today:</span>
+              <span class="font-medium text-green-600 dark:text-green-400">3</span>
+            </div>
+            <div class="flex justify-between text-sm">
+              <span class="text-gray-500 dark:text-gray-400">Rating:</span>
+              <div class="flex items-center gap-1">
+                <span class="font-medium">4.4</span>
+                <div class="flex">
+                  <i class="fas fa-star text-yellow-500 text-xs"></i>
+                  <i class="fas fa-star text-yellow-500 text-xs"></i>
+                  <i class="fas fa-star text-yellow-500 text-xs"></i>
+                  <i class="fas fa-star text-yellow-500 text-xs"></i>
+                  <i class="far fa-star text-yellow-500 text-xs"></i>
+                </div>
+              </div>
+            </div>
+            <div class="flex justify-between text-sm">
+              <span class="text-gray-500 dark:text-gray-400">Response Time:</span>
+              <span class="font-medium">2.1h avg</span>
+            </div>
+          </div>
+          
+          <div class="flex gap-2">
+            <button class="flex-1 px-3 py-2 text-sm bg-bpo-primary text-white rounded hover:bg-bpo-accent transition-colors">
+              View Profile
+            </button>
+            <button class="px-3 py-2 text-sm border border-gray-300 dark:border-dark-border rounded hover:bg-gray-100 dark:hover:bg-dark-bg transition-colors">
+              <i class="fas fa-envelope"></i>
+            </button>
+            <button class="px-3 py-2 text-sm border border-gray-300 dark:border-dark-border rounded hover:bg-gray-100 dark:hover:bg-dark-bg transition-colors">
+              <i class="fas fa-phone"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Agents List View (Hidden by default) -->
+      <div id="agentsList" class="hidden bg-white dark:bg-dark-surface rounded-xl shadow-lg border dark:border-dark-border overflow-hidden">
+        <div class="p-6 border-b dark:border-dark-border">
+          <h3 class="text-lg font-semibold text-bpo-primary dark:text-white">Agent List</h3>
+        </div>
+        <div class="overflow-x-auto">
+          <table class="w-full">
+            <thead class="bg-gray-50 dark:bg-dark-bg">
+              <tr>
+                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Agent</th>
+                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Department</th>
+                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Status</th>
+                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Active Tickets</th>
+                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Resolved Today</th>
+                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Rating</th>
+                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Response Time</th>
+                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Actions</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-gray-200 dark:divide-dark-border">
+              <tr class="hover:bg-gray-50 dark:hover:bg-dark-bg transition-colors">
+                <td class="px-6 py-4 whitespace-nowrap">
+                  <div class="flex items-center">
+                    <div class="relative">
+                      <img class="h-10 w-10 rounded-full" src="/placeholder.svg?height=40&width=40" alt="Agent">
+                      <div class="absolute -bottom-1 -right-1 w-3 h-3 bg-green-500 rounded-full border-2 border-white dark:border-dark-surface"></div>
+                    </div>
+                    <div class="ml-4">
+                      <div class="text-sm font-medium text-bpo-primary dark:text-white">Sarah Wilson</div>
+                      <div class="text-sm text-gray-500 dark:text-gray-400">Senior Agent</div>
+                    </div>
+                  </div>
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">Customer Support</td>
+                <td class="px-6 py-4 whitespace-nowrap">
+                  <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800 dark:bg-green-900/20 dark:text-green-400">Online</span>
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-blue-600 dark:text-blue-400">12</td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-green-600 dark:text-green-400">8</td>
+                <td class="px-6 py-4 whitespace-nowrap">
+                  <div class="flex items-center">
+                    <span class="text-sm font-medium mr-1">4.9</span>
+                    <div class="flex">
+                      <i class="fas fa-star text-yellow-500 text-xs"></i>
+                      <i class="fas fa-star text-yellow-500 text-xs"></i>
+                      <i class="fas fa-star text-yellow-500 text-xs"></i>
+                      <i class="fas fa-star text-yellow-500 text-xs"></i>
+                      <i class="fas fa-star text-yellow-500 text-xs"></i>
+                    </div>
+                  </div>
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">1.2h avg</td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                  <div class="flex gap-2">
+                    <button class="text-bpo-primary dark:text-bpo-accent hover:underline">View</button>
+                    <button class="text-gray-600 dark:text-gray-400 hover:underline">Edit</button>
+                    <button class="text-green-600 dark:text-green-400 hover:underline">Message</button>
+                  </div>
+                </td>
+              </tr>
+              <tr class="hover:bg-gray-50 dark:hover:bg-dark-bg transition-colors">
+                <td class="px-6 py-4 whitespace-nowrap">
+                  <div class="flex items-center">
+                    <div class="relative">
+                      <img class="h-10 w-10 rounded-full" src="/placeholder.svg?height=40&width=40" alt="Agent">
+                      <div class="absolute -bottom-1 -right-1 w-3 h-3 bg-yellow-500 rounded-full border-2 border-white dark:border-dark-surface"></div>
+                    </div>
+                    <div class="ml-4">
+                      <div class="text-sm font-medium text-bpo-primary dark:text-white">Mike Johnson</div>
+                      <div class="text-sm text-gray-500 dark:text-gray-400">Support Agent</div>
+                    </div>
+                  </div>
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">Technical Support</td>
+                <td class="px-6 py-4 whitespace-nowrap">
+                  <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-yellow-100 text-yellow-800 dark:bg-yellow-900/20 dark:text-yellow-400">On Break</span>
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-blue-600 dark:text-blue-400">6</td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-green-600 dark:text-green-400">5</td>
+                <td class="px-6 py-4 whitespace-nowrap">
+                  <div class="flex items-center">
+                    <span class="text-sm font-medium mr-1">4.7</span>
+                    <div class="flex">
+                      <i class="fas fa-star text-yellow-500 text-xs"></i>
+                      <i class="fas fa-star text-yellow-500 text-xs"></i>
+                      <i class="fas fa-star text-yellow-500 text-xs"></i>
+                      <i class="fas fa-star text-yellow-500 text-xs"></i>
+                      <i class="far fa-star text-yellow-500 text-xs"></i>
+                    </div>
+                  </div>
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">1.8h avg</td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                  <div class="flex gap-2">
+                    <button class="text-bpo-primary dark:text-bpo-accent hover:underline">View</button>
+                    <button class="text-gray-600 dark:text-gray-400 hover:underline">Edit</button>
+                    <button class="text-green-600 dark:text-green-400 hover:underline">Message</button>
+                  </div>
+                </td>
+              </tr>
+              <tr class="hover:bg-gray-50 dark:hover:bg-dark-bg transition-colors">
+                <td class="px-6 py-4 whitespace-nowrap">
+                  <div class="flex items-center">
+                    <div class="relative">
+                      <img class="h-10 w-10 rounded-full" src="/placeholder.svg?height=40&width=40" alt="Agent">
+                      <div class="absolute -bottom-1 -right-1 w-3 h-3 bg-green-500 rounded-full border-2 border-white dark:border-dark-surface"></div>
+                    </div>
+                    <div class="ml-4">
+                      <div class="text-sm font-medium text-bpo-primary dark:text-white">Emma Davis</div>
+                      <div class="text-sm text-gray-500 dark:text-gray-400">Team Lead</div>
+                    </div>
+                  </div>
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">Customer Support</td>
+                <td class="px-6 py-4 whitespace-nowrap">
+                  <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800 dark:bg-green-900/20 dark:text-green-400">Online</span>
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-blue-600 dark:text-blue-400">15</td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-green-600 dark:text-green-400">11</td>
+                <td class="px-6 py-4 whitespace-nowrap">
+                  <div class="flex items-center">
+                    <span class="text-sm font-medium mr-1">4.8</span>
+                    <div class="flex">
+                      <i class="fas fa-star text-yellow-500 text-xs"></i>
+                      <i class="fas fa-star text-yellow-500 text-xs"></i>
+                      <i class="fas fa-star text-yellow-500 text-xs"></i>
+                      <i class="fas fa-star text-yellow-500 text-xs"></i>
+                      <i class="fas fa-star text-yellow-500 text-xs"></i>
+                    </div>
+                  </div>
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">0.9h avg</td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                  <div class="flex gap-2">
+                    <button class="text-bpo-primary dark:text-bpo-accent hover:underline">View</button>
+                    <button class="text-gray-600 dark:text-gray-400 hover:underline">Edit</button>
+                    <button class="text-green-600 dark:text-green-400 hover:underline">Message</button>
+                  </div>
+                </td>
+              </tr>
+              <tr class="hover:bg-gray-50 dark:hover:bg-dark-bg transition-colors">
+                <td class="px-6 py-4 whitespace-nowrap">
+                  <div class="flex items-center">
+                    <div class="relative">
+                      <img class="h-10 w-10 rounded-full" src="/placeholder.svg?height=40&width=40" alt="Agent">
+                      <div class="absolute -bottom-1 -right-1 w-3 h-3 bg-gray-500 rounded-full border-2 border-white dark:border-dark-surface"></div>
+                    </div>
+                    <div class="ml-4">
+                      <div class="text-sm font-medium text-bpo-primary dark:text-white">David Chen</div>
+                      <div class="text-sm text-gray-500 dark:text-gray-400">Support Agent</div>
+                    </div>
+                  </div>
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">Billing</td>
+                <td class="px-6 py-4 whitespace-nowrap">
+                  <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-gray-100 text-gray-800 dark:bg-gray-800 dark:text-gray-300">Offline</span>
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">0</td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">0</td>
+                <td class="px-6 py-4 whitespace-nowrap">
+                  <div class="flex items-center">
+                    <span class="text-sm font-medium mr-1">4.6</span>
+                    <div class="flex">
+                      <i class="fas fa-star text-yellow-500 text-xs"></i>
+                      <i class="fas fa-star text-yellow-500 text-xs"></i>
+                      <i class="fas fa-star text-yellow-500 text-xs"></i>
+                      <i class="fas fa-star text-yellow-500 text-xs"></i>
+                      <i class="far fa-star text-yellow-500 text-xs"></i>
+                    </div>
+                  </div>
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">Last: 2h ago</td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                  <div class="flex gap-2">
+                    <button class="text-bpo-primary dark:text-bpo-accent hover:underline">View</button>
+                    <button class="text-gray-600 dark:text-gray-400 hover:underline">Edit</button>
+                    <button class="text-gray-400 cursor-not-allowed">Message</button>
+                  </div>
+                </td>
+              </tr>
+              <tr class="hover:bg-gray-50 dark:hover:bg-dark-bg transition-colors">
+                <td class="px-6 py-4 whitespace-nowrap">
+                  <div class="flex items-center">
+                    <div class="relative">
+                      <img class="h-10 w-10 rounded-full" src="/placeholder.svg?height=40&width=40" alt="Agent">
+                      <div class="absolute -bottom-1 -right-1 w-3 h-3 bg-green-500 rounded-full border-2 border-white dark:border-dark-surface"></div>
+                    </div>
+                    <div class="ml-4">
+                      <div class="text-sm font-medium text-bpo-primary dark:text-white">Lisa Rodriguez</div>
+                      <div class="text-sm text-gray-500 dark:text-gray-400">Senior Agent</div>
+                    </div>
+                  </div>
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">Sales</td>
+                <td class="px-6 py-4 whitespace-nowrap">
+                  <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800 dark:bg-green-900/20 dark:text-green-400">Online</span>
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-blue-600 dark:text-blue-400">9</td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-green-600 dark:text-green-400">7</td>
+                <td class="px-6 py-4 whitespace-nowrap">
+                  <div class="flex items-center">
+                    <span class="text-sm font-medium mr-1">4.9</span>
+                    <div class="flex">
+                      <i class="fas fa-star text-yellow-500 text-xs"></i>
+                      <i class="fas fa-star text-yellow-500 text-xs"></i>
+                      <i class="fas fa-star text-yellow-500 text-xs"></i>
+                      <i class="fas fa-star text-yellow-500 text-xs"></i>
+                      <i class="fas fa-star text-yellow-500 text-xs"></i>
+                    </div>
+                  </div>
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">1.1h avg</td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                  <div class="flex gap-2">
+                    <button class="text-bpo-primary dark:text-bpo-accent hover:underline">View</button>
+                    <button class="text-gray-600 dark:text-gray-400 hover:underline">Edit</button>
+                    <button class="text-green-600 dark:text-green-400 hover:underline">Message</button>
+                  </div>
+                </td>
+              </tr>
+              <tr class="hover:bg-gray-50 dark:hover:bg-dark-bg transition-colors">
+                <td class="px-6 py-4 whitespace-nowrap">
+                  <div class="flex items-center">
+                    <div class="relative">
+                      <img class="h-10 w-10 rounded-full" src="/placeholder.svg?height=40&width=40" alt="Agent">
+                      <div class="absolute -bottom-1 -right-1 w-3 h-3 bg-orange-500 rounded-full border-2 border-white dark:border-dark-surface"></div>
+                    </div>
+                    <div class="ml-4">
+                      <div class="text-sm font-medium text-bpo-primary dark:text-white">James Thompson</div>
+                      <div class="text-sm text-gray-500 dark:text-gray-400">Junior Agent</div>
+                    </div>
+                  </div>
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">Customer Support</td>
+                <td class="px-6 py-4 whitespace-nowrap">
+                  <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-orange-100 text-orange-800 dark:bg-orange-900/20 dark:text-orange-400">Away</span>
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-blue-600 dark:text-blue-400">4</td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-green-600 dark:text-green-400">3</td>
+                <td class="px-6 py-4 whitespace-nowrap">
+                  <div class="flex items-center">
+                    <span class="text-sm font-medium mr-1">4.4</span>
+                    <div class="flex">
+                      <i class="fas fa-star text-yellow-500 text-xs"></i>
+                      <i class="fas fa-star text-yellow-500 text-xs"></i>
+                      <i class="fas fa-star text-yellow-500 text-xs"></i>
+                      <i class="fas fa-star text-yellow-500 text-xs"></i>
+                      <i class="far fa-star text-yellow-500 text-xs"></i>
+                    </div>
+                  </div>
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">2.1h avg</td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                  <div class="flex gap-2">
+                    <button class="text-bpo-primary dark:text-bpo-accent hover:underline">View</button>
+                    <button class="text-gray-600 dark:text-gray-400 hover:underline">Edit</button>
+                    <button class="text-orange-600 dark:text-orange-400 hover:underline">Message</button>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Pagination -->
+      <div class="mt-8 flex items-center justify-between">
+        <div class="text-sm text-gray-500 dark:text-gray-400">
+          Showing 6 of 58 agents
+        </div>
+        <div class="flex gap-2">
+          <button class="px-3 py-1 text-sm border border-gray-300 dark:border-dark-border rounded hover:bg-gray-100 dark:hover:bg-dark-bg transition-colors">
+            Previous
+          </button>
+          <button class="px-3 py-1 text-sm bg-bpo-primary text-white rounded hover:bg-bpo-accent transition-colors">
+            1
+          </button>
+          <button class="px-3 py-1 text-sm border border-gray-300 dark:border-dark-border rounded hover:bg-gray-100 dark:hover:bg-dark-bg transition-colors">
+            2
+          </button>
+          <button class="px-3 py-1 text-sm border border-gray-300 dark:border-dark-border rounded hover:bg-gray-100 dark:hover:bg-dark-bg transition-colors">
+            3
+          </button>
+          <button class="px-3 py-1 text-sm border border-gray-300 dark:border-dark-border rounded hover:bg-gray-100 dark:hover:bg-dark-bg transition-colors">
+            Next
+          </button>
+        </div>
+      </div>
+
+      <!-- Footer -->
+      <div class="mt-8 text-center text-sm text-gray-500 dark:text-gray-400">
+        © 2025 BPO CMS. All rights reserved.
+      </div>
+    </main>
+  </div>
+
+  <!-- 🧠 Theme toggle behavior -->
+  <script>
+    const toggleButton = document.getElementById('themeToggle');
+    const icon = document.getElementById('themeIcon');
+    const html = document.documentElement;
+
+    const updateIcon = () => {
+      icon.classList.toggle('fa-sun', !html.classList.contains('dark'));
+      icon.classList.toggle('fa-moon', html.classList.contains('dark'));
+    };
+
+    toggleButton.addEventListener('click', () => {
+      html.classList.toggle('dark');
+      localStorage.setItem('theme', html.classList.contains('dark') ? 'dark' : 'light');
+      updateIcon();
+    });
+
+    // 🔄 Initialize icon state
+    updateIcon();
+  
+
+    // View toggle functionality
+    const gridViewBtn = document.getElementById('gridView');
+    const listViewBtn = document.getElementById('listView');
+    const agentsGrid = document.getElementById('agentsGrid');
+    const agentsList = document.getElementById('agentsList');
+
+    gridViewBtn.addEventListener('click', () => {
+      // Show grid view
+      agentsGrid.classList.remove('hidden');
+      agentsList.classList.add('hidden');
+      
+      // Update button styles
+      gridViewBtn.classList.add('bg-bpo-primary', 'text-white');
+      gridViewBtn.classList.remove('border', 'border-gray-300', 'dark:border-dark-border', 'hover:bg-gray-100', 'dark:hover:bg-dark-bg');
+      
+      listViewBtn.classList.remove('bg-bpo-primary', 'text-white');
+      listViewBtn.classList.add('border', 'border-gray-300', 'dark:border-dark-border', 'hover:bg-gray-100', 'dark:hover:bg-dark-bg');
+    });
+
+    listViewBtn.addEventListener('click', () => {
+      // Show list view
+      agentsGrid.classList.add('hidden');
+      agentsList.classList.remove('hidden');
+      
+      // Update button styles
+      listViewBtn.classList.add('bg-bpo-primary', 'text-white');
+      listViewBtn.classList.remove('border', 'border-gray-300', 'dark:border-dark-border', 'hover:bg-gray-100', 'dark:hover:bg-dark-bg');
+      
+      gridViewBtn.classList.remove('bg-bpo-primary', 'text-white');
+      gridViewBtn.classList.add('border', 'border-gray-300', 'dark:border-dark-border', 'hover:bg-gray-100', 'dark:hover:bg-dark-bg');
+    });
+  </script>
+
+</body>
+</html>

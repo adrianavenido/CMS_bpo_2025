@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>BPO CMS - Task Management</title>
+
+
+  <!-- ⏰ Smart default theme logic (before render) -->
+  <script>
+    const savedTheme = localStorage.getItem('theme');
+    if (!savedTheme) {
+      const hour = new Date().getHours();
+      const isNight = hour >= 18 || hour < 6;
+      document.documentElement.classList.toggle('dark', isNight);
+    } else {
+      document.documentElement.classList.toggle('dark', savedTheme === 'dark');
+    }
+  </script>
+
+  <!-- Tailwind and custom dark mode config -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            'bpo-primary': '#0d47a1',
+            'bpo-accent': '#1e88e5',
+            'dark-bg': '#0f172a',
+            'dark-surface': '#1e293b',
+            'dark-border': '#334155',
+          }
+        }
+      }
+    }
+  </script>
+
+  
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            'bpo-primary': '#0d47a1',
+            'bpo-accent': '#1e88e5',
+            'dark-bg': '#0f172a',
+            'dark-surface': '#1e293b',
+            'dark-border': '#334155',
+          }
+        }
+      }
+    }
+  </script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body class="bg-gray-100 dark:bg-dark-bg text-gray-800 dark:text-white transition-colors duration-300">
+  
+  <!-- Header -->
+  <header class="bg-white dark:bg-dark-surface shadow-lg border-b dark:border-dark-border">
+    <div class="flex items-center justify-between px-6 py-4">
+      <div class="flex items-center gap-2">
+        <i class="fas fa-headset text-bpo-primary dark:text-bpo-accent text-2xl"></i>
+        <h1 class="text-xl font-bold text-bpo-primary dark:text-white">BPO CMS</h1>
+      </div>
+      <div class="flex items-center space-x-4">
+        <button id="themeToggle" class="p-2 rounded-full hover:bg-gray-200 dark:hover:bg-dark-surface transition">
+          <i id="themeIcon" class="fas fa-sun text-xl dark:text-white"></i>
+        </button>
+        <div class="relative">
+          <button class="p-2 rounded-full hover:bg-gray-200 dark:hover:bg-dark-surface transition">
+            <i class="fas fa-bell text-xl"></i>
+            <span class="absolute -top-1 -right-1 bg-red-500 text-xs rounded-full h-5 w-5 flex items-center justify-center">3</span>
+          </button>
+        </div>
+        <div class="flex items-center space-x-2">
+          <img src="/placeholder.svg?height=32&width=32" alt="User" class="w-8 h-8 rounded-full" />
+          <div class="text-sm">
+            <div class="font-medium">Alex Martin</div>
+            <div class="text-gray-500 dark:text-gray-400 text-xs">Ops Manager</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <div class="flex min-h-screen">
+    <!-- Sidebar -->
+    <aside class="w-64 bg-white dark:bg-dark-surface shadow-lg border-r dark:border-dark-border">
+      <nav class="mt-6">
+        <div class="px-6 py-2">
+          <h2 class="text-sm uppercase font-semibold text-gray-500 dark:text-gray-400 tracking-wider">Navigation</h2>
+        </div>
+        <ul class="space-y-2 px-4 mt-4">
+          <li>
+            <a href="index.html" class="flex items-center px-4 py-3 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-dark-bg rounded-lg transition-colors">
+              <i class="fas fa-chart-line mr-3"></i>Dashboard
+            </a>
+          </li>
+          <li>
+            <a href="clients.html" class="flex items-center px-4 py-3 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-dark-bg rounded-lg transition-colors">
+              <i class="fas fa-users mr-3"></i>Clients
+            </a>
+          </li>
+          <li>
+            <a href="support-tickets.html" class="flex items-center px-4 py-3 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-dark-bg rounded-lg transition-colors">
+              <i class="fas fa-ticket-alt mr-3"></i>Support Tickets
+            </a>
+          </li>
+          <li>
+            <a href="agents.html" class="flex items-center px-4 py-3 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-dark-bg rounded-lg transition-colors">
+              <i class="fas fa-user-friends mr-3"></i>Agents
+            </a>
+          </li>
+          <li>
+            <a href="task-management.html" class="flex items-center px-4 py-3 bg-bpo-primary text-white rounded-lg">
+              <i class="fas fa-clipboard-list mr-3"></i>Task Management
+            </a>
+          </li>
+          <li>
+            <a href="reports.html" class="flex items-center px-4 py-3 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-dark-bg rounded-lg transition-colors">
+              <i class="fas fa-file-alt mr-3"></i>Reports
+            </a>
+          </li>
+          <li>
+            <a href="settings.html" class="flex items-center px-4 py-3 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-dark-bg rounded-lg transition-colors">
+              <i class="fas fa-cog mr-3"></i>Settings
+            </a>
+          </li>
+          <li class="pt-4 border-t dark:border-dark-border">
+            <a href="login.html" class="flex items-center px-4 py-3 text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-lg transition-colors">
+              <i class="fas fa-sign-out-alt mr-3"></i>Logout
+            </a>
+          </li>
+        </ul>
+      </nav>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="flex-1 overflow-y-auto p-8">
+      <!-- Page Header -->
+      <div class="mb-8">
+        <h2 class="text-2xl font-bold text-bpo-primary dark:text-white">Task Management</h2>
+        <p class="text-gray-500 dark:text-gray-400 mt-1">Organize and track team tasks and projects</p>
+      </div>
+
+      <!-- Task Stats -->
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+        <div class="bg-white dark:bg-dark-surface rounded-xl shadow-lg border dark:border-dark-border p-6">
+          <div class="flex items-center justify-between">
+            <div>
+              <p class="text-sm text-gray-500 dark:text-gray-400 font-medium">Total Tasks</p>
+              <p class="text-2xl font-bold text-bpo-primary dark:text-white mt-1">156</p>
+            </div>
+            <div class="p-3 bg-blue-100 dark:bg-blue-900/20 rounded-lg">
+              <i class="fas fa-clipboard-list text-bpo-primary dark:text-bpo-accent text-xl"></i>
+            </div>
+          </div>
+        </div>
+        <div class="bg-white dark:bg-dark-surface rounded-xl shadow-lg border dark:border-dark-border p-6">
+          <div class="flex items-center justify-between">
+            <div>
+              <p class="text-sm text-gray-500 dark:text-gray-400 font-medium">In Progress</p>
+              <p class="text-2xl font-bold text-bpo-primary dark:text-white mt-1">42</p>
+            </div>
+            <div class="p-3 bg-yellow-100 dark:bg-yellow-900/20 rounded-lg">
+              <i class="fas fa-clock text-yellow-600 dark:text-yellow-400 text-xl"></i>
+            </div>
+          </div>
+        </div>
+        <div class="bg-white dark:bg-dark-surface rounded-xl shadow-lg border dark:border-dark-border p-6">
+          <div class="flex items-center justify-between">
+            <div>
+              <p class="text-sm text-gray-500 dark:text-gray-400 font-medium">Completed</p>
+              <p class="text-2xl font-bold text-bpo-primary dark:text-white mt-1">98</p>
+            </div>
+            <div class="p-3 bg-green-100 dark:bg-green-900/20 rounded-lg">
+              <i class="fas fa-check-circle text-green-600 dark:text-green-400 text-xl"></i>
+            </div>
+          </div>
+        </div>
+        <div class="bg-white dark:bg-dark-surface rounded-xl shadow-lg border dark:border-dark-border p-6">
+          <div class="flex items-center justify-between">
+            <div>
+              <p class="text-sm text-gray-500 dark:text-gray-400 font-medium">Overdue</p>
+              <p class="text-2xl font-bold text-bpo-primary dark:text-white mt-1">16</p>
+            </div>
+            <div class="p-3 bg-red-100 dark:bg-red-900/20 rounded-lg">
+              <i class="fas fa-exclamation-triangle text-red-600 dark:text-red-400 text-xl"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Task Board -->
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <!-- To Do Column -->
+        <div class="bg-white dark:bg-dark-surface rounded-xl shadow-lg border dark:border-dark-border">
+          <div class="p-6 border-b dark:border-dark-border">
+            <div class="flex items-center justify-between">
+              <h3 class="text-lg font-semibold text-bpo-primary dark:text-white">To Do</h3>
+              <span class="px-2 py-1 text-xs font-semibold rounded-full bg-gray-100 text-gray-800 dark:bg-gray-800 dark:text-gray-300">24</span>
+            </div>
+          </div>
+          <div class="p-4 space-y-4 max-h-96 overflow-y-auto">
+            <div class="p-4 bg-gray-50 dark:bg-dark-bg rounded-lg border-l-4 border-blue-500">
+              <div class="flex items-center justify-between mb-2">
+                <span class="px-2 py-1 text-xs font-semibold rounded-full bg-blue-100 text-blue-800 dark:bg-blue-900/20 dark:text-blue-400">High</span>
+                <span class="text-xs text-gray-500 dark:text-gray-400">Due: Today</span>
+              </div>
+              <h4 class="font-medium text-bpo-primary dark:text-white mb-1">Update client database</h4>
+              <p class="text-sm text-gray-600 dark:text-gray-400 mb-2">Migrate client records to new system</p>
+              <div class="flex items-center justify-between">
+                <div class="flex items-center gap-2">
+                  <img src="/placeholder.svg?height=24&width=24" alt="Assignee" class="w-6 h-6 rounded-full" />
+                  <span class="text-xs text-gray-500 dark:text-gray-400">Sarah W.</span>
+                </div>
+                <button class="text-xs text-bpo-primary dark:text-bpo-accent hover:underline">Start</button>
+              </div>
+            </div>
+
+            <div class="p-4 bg-gray-50 dark:bg-dark-bg rounded-lg border-l-4 border-yellow-500">
+              <div class="flex items-center justify-between mb-2">
+                <span class="px-2 py-1 text-xs font-semibold rounded-full bg-yellow-100 text-yellow-800 dark:bg-yellow-900/20 dark:text-yellow-400">Medium</span>
+                <span class="text-xs text-gray-500 dark:text-gray-400">Due: Tomorrow</span>
+              </div>
+              <h4 class="font-medium text-bpo-primary dark:text-white mb-1">Review support metrics</h4>
+              <p class="text-sm text-gray-600 dark:text-gray-400 mb-2">Analyze weekly performance data</p>
+              <div class="flex items-center justify-between">
+                <div class="flex items-center gap-2">
+                  <img src="/placeholder.svg?height=24&width=24" alt="Assignee" class="w-6 h-6 rounded-full" />
+                  <span class="text-xs text-gray-500 dark:text-gray-400">Mike J.</span>
+                </div>
+                <button class="text-xs text-bpo-primary dark:text-bpo-accent hover:underline">Start</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- In Progress Column -->
+        <div class="bg-white dark:bg-dark-surface rounded-xl shadow-lg border dark:border-dark-border">
+          <div class="p-6 border-b dark:border-dark-border">
+            <div class="flex items-center justify-between">
+              <h3 class="text-lg font-semibold text-bpo-primary dark:text-white">In Progress</h3>
+              <span class="px-2 py-1 text-xs font-semibold rounded-full bg-yellow-100 text-yellow-800 dark:bg-yellow-900/20 dark:text-yellow-400">8</span>
+            </div>
+          </div>
+          <div class="p-4 space-y-4 max-h-96 overflow-y-auto">
+            <div class="p-4 bg-yellow-50 dark:bg-yellow-900/10 rounded-lg border-l-4 border-yellow-500">
+              <div class="flex items-center justify-between mb-2">
+                <span class="px-2 py-1 text-xs font-semibold rounded-full bg-red-100 text-red-800 dark:bg-red-900/20 dark:text-red-400">High</span>
+                <span class="text-xs text-gray-500 dark:text-gray-400">50% Complete</span>
+              </div>
+              <h4 class="font-medium text-bpo-primary dark:text-white mb-1">Implement new ticketing system</h4>
+              <p class="text-sm text-gray-600 dark:text-gray-400 mb-2">Deploy and configure support platform</p>
+              <div class="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2 mb-2">
+                <div class="bg-yellow-500 h-2 rounded-full" style="width: 50%"></div>
+              </div>
+              <div class="flex items-center justify-between">
+                <div class="flex items-center gap-2">
+                  <img src="/placeholder.svg?height=24&width=24" alt="Assignee" class="w-6 h-6 rounded-full" />
+                  <span class="text-xs text-gray-500 dark:text-gray-400">Emma D.</span>
+                </div>
+                <button class="text-xs text-bpo-primary dark:text-bpo-accent hover:underline">Update</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Done Column -->
+        <div class="bg-white dark:bg-dark-surface rounded-xl shadow-lg border dark:border-dark-border">
+          <div class="p-6 border-b dark:border-dark-border">
+            <div class="flex items-center justify-between">
+              <h3 class="text-lg font-semibold text-bpo-primary dark:text-white">Done</h3>
+              <span class="px-2 py-1 text-xs font-semibold rounded-full bg-green-100 text-green-800 dark:bg-green-900/20 dark:text-green-400">12</span>
+            </div>
+          </div>
+          <div class="p-4 space-y-4 max-h-96 overflow-y-auto">
+            <div class="p-4 bg-green-50 dark:bg-green-900/10 rounded-lg border-l-4 border-green-500">
+              <div class="flex items-center justify-between mb-2">
+                <span class="px-2 py-1 text-xs font-semibold rounded-full bg-green-100 text-green-800 dark:bg-green-900/20 dark:text-green-400">Completed</span>
+                <span class="text-xs text-gray-500 dark:text-gray-400">Yesterday</span>
+              </div>
+              <h4 class="font-medium text-bpo-primary dark:text-white mb-1">Monthly team training</h4>
+              <p class="text-sm text-gray-600 dark:text-gray-400 mb-2">Conducted skills development session</p>
+              <div class="flex items-center justify-between">
+                <div class="flex items-center gap-2">
+                  <img src="/placeholder.svg?height=24&width=24" alt="Assignee" class="w-6 h-6 rounded-full" />
+                  <span class="text-xs text-gray-500 dark:text-gray-400">Alex M.</span>
+                </div>
+                <i class="fas fa-check-circle text-green-500"></i>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Footer -->
+      <div class="mt-8 text-center text-sm text-gray-500 dark:text-gray-400">
+        © 2025 BPO CMS. All rights reserved.
+      </div>
+    </main>
+  </div>
+
+  <!-- 🧠 Theme toggle behavior -->
+  <script>
+    const toggleButton = document.getElementById('themeToggle');
+    const icon = document.getElementById('themeIcon');
+    const html = document.documentElement;
+
+    const updateIcon = () => {
+      icon.classList.toggle('fa-sun', !html.classList.contains('dark'));
+      icon.classList.toggle('fa-moon', html.classList.contains('dark'));
+    };
+
+    toggleButton.addEventListener('click', () => {
+      html.classList.toggle('dark');
+      localStorage.setItem('theme', html.classList.contains('dark') ? 'dark' : 'light');
+      updateIcon();
+    });
+
+    // 🔄 Initialize icon state
+    updateIcon();
+  </script>
+
+</body>
+</html>
