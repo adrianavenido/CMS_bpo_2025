@@ -57,19 +57,18 @@
       </div>
 
       <form id="loginForm" class="space-y-5">
-        <!-- CSRF Token -->
-        <input type="hidden" id="csrfToken" name="csrf_token" value="">
-
         <div>
           <label for="email" class="block text-sm font-medium mb-1">Email</label>
           <input type="email" id="email" name="email" required
-            class="w-full px-4 py-2 rounded-lg border dark:border-dark-border dark:bg-dark-bg dark:text-white focus:outline-none focus:ring-2 focus:ring-bpo-accent" />
+            class="w-full px-4 py-2 rounded-lg border dark:border-dark-border dark:bg-dark-bg dark:text-white focus:outline-none focus:ring-2 focus:ring-bpo-accent" 
+            placeholder="admin@bpo.com" />
         </div>
 
         <div>
           <label for="password" class="block text-sm font-medium mb-1">Password</label>
           <input type="password" id="password" name="password" required
-            class="w-full px-4 py-2 rounded-lg border dark:border-dark-border dark:bg-dark-bg dark:text-white focus:outline-none focus:ring-2 focus:ring-bpo-accent" />
+            class="w-full px-4 py-2 rounded-lg border dark:border-dark-border dark:bg-dark-bg dark:text-white focus:outline-none focus:ring-2 focus:ring-bpo-accent" 
+            placeholder="admin123" />
         </div>
 
         <div class="flex justify-between items-center text-sm">
@@ -125,16 +124,6 @@
     const loginBtnSpinner = document.getElementById('loginBtnSpinner');
     const alertContainer = document.getElementById('alertContainer');
 
-    // Get CSRF token on page load
-    // CSRF token is handled by the server session
-    function getCSRFToken() {
-      // For now, we'll use a simple approach
-      return Math.random().toString(36).substring(2);
-    }
-
-    // Initialize CSRF token
-    getCSRFToken();
-
     function showAlert(message, type = 'error') {
       const alert = document.createElement('div');
       alert.className = `p-4 mb-4 rounded-lg shadow-lg transition-all duration-300 ${
@@ -172,6 +161,28 @@
       }
     }
 
+    // Check if user is already logged in
+    async function checkAuthStatus() {
+      try {
+        const response = await fetch('/api/auth/check', {
+          method: 'GET',
+          credentials: 'include'
+        });
+        
+        if (response.ok) {
+          const data = await response.json();
+          if (data.authenticated) {
+            window.location.href = '/dashboard';
+          }
+        }
+      } catch (error) {
+        console.log('Auth check failed, staying on login page');
+      }
+    }
+
+    // Check auth status on page load
+    checkAuthStatus();
+
     loginForm.addEventListener('submit', async (e) => {
       e.preventDefault();
       
@@ -198,6 +209,7 @@
           headers: {
             'Content-Type': 'application/json',
           },
+          credentials: 'include',
           body: JSON.stringify({
             email: email,
             password: password
@@ -206,7 +218,7 @@
 
         const result = await response.json();
 
-        if (result.success) {
+        if (response.ok && result.success) {
           showAlert('Login successful! Redirecting...', 'success');
           setTimeout(() => {
             window.location.href = '/dashboard';
@@ -219,6 +231,18 @@
         showAlert('Network error. Please check your connection and try again.');
       } finally {
         setLoading(false);
+      }
+    });
+
+    // Add demo credentials for easy testing
+    document.addEventListener('DOMContentLoaded', () => {
+      const emailInput = document.getElementById('email');
+      const passwordInput = document.getElementById('password');
+      
+      // Auto-fill demo credentials if fields are empty
+      if (!emailInput.value && !passwordInput.value) {
+        emailInput.value = 'admin@bpo.com';
+        passwordInput.value = 'admin123';
       }
     });
   </script>
